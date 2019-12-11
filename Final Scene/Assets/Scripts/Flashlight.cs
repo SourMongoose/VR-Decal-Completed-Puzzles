@@ -4,25 +4,28 @@ using UnityEngine;
 
 public class Flashlight : MonoBehaviour
 {
-    public AudioClip soundOn;
-    public AudioClip soundOff; 
     public Light light;
-    public AudioSource audio;
+    public OVRInput.Controller controller;
+
     // Start is called before the first frame update
     void Start()
     {
-        light = GetComponent<Light>();
-        audio = GetComponent<AudioSource>();
+        light.GetComponent<Light>().enabled = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse1))
+        if (transform.GetComponent<OVRGrabbable>().isGrabbed)
         {
-            light.enabled = !light.enabled;
-            audio.clip = audio.clip == soundOn ? soundOff : soundOn;
-            audio.Play();
+            light.GetComponent<Light>().enabled = true;
+
+        }
+
+        if (!transform.GetComponent<OVRGrabbable>().isGrabbed)
+        {
+            light.GetComponent<Light>().enabled = false;
+
         }
     }
 }
